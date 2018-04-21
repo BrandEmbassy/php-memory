@@ -2,14 +2,11 @@
 
 namespace BrandEmbassy\Memory;
 
-use Assert\Assertion;
-use Assert\AssertionFailedException;
-use Nette\Utils\Strings;
-
 class MemoryLimitProvider
 {
 
-    private const BYTES_AMOUNT = 1024;
+    private const BYTES_MULTIPLIER = 1024;
+    private const LAST_CHARACTER_OFFSET = -1;
 
     /**
      * @var MemoryConfiguration
@@ -21,35 +18,52 @@ class MemoryLimitProvider
         $this->configuration = $configuration;
     }
 
+    /**
+     * @return int
+     * @throws MemoryLimitNotSetException
+     */
     public function getLimitInBytes(): int
     {
-        $limitFromConfiguration = Strings::trim($this->configuration->getMemoryLimit());
+        $limitFromConfiguration = $this->getLimitFromConfiguration();
         $lastCharacter = $this->extractLastCharacterFromString($limitFromConfiguration);
 
-        if (static::isIntegerish($lastCharacter)) {
+        if (\ctype_digit($lastCharacter)) {
             return (int)$limitFromConfiguration;
         }
 
-        $intValueFromConfiguration = (int)$limitFromConfiguration;
-        $multiplier = self::BYTES_AMOUNT ** MemoryLimitUnitTypes::byName($lastCharacter)->getValue();
+        $multiplier = $this->getMultiplier($lastCharacter);
 
-        return $intValueFromConfiguration * $multiplier;
+        return (int)$limitFromConfiguration * $multiplier;
+    }
+
+    /**
+     * @return string
+     * @throws MemoryLimitNotSetException
+     */
+    private function getLimitFromConfiguration(): string
+    {
+        $limitFromConfiguration = $this->configuration->getMemoryLimit();
+
+        if ($limitFromConfiguration === '') {
+            throw new MemoryLimitNotSetException();
+        }
+
+        return $limitFromConfiguration;
     }
 
     private function extractLastCharacterFromString(string $wholeString): string
     {
-        return Strings::upper(\substr($wholeString, -1));
+        $lastCharacter = \substr($wholeString, self::LAST_CHARACTER_OFFSET);
+
+        return \strtoupper($lastCharacter);
     }
 
-    private function isIntegerish(string $value): bool
+    private function getMultiplier(string $lastCharacter): int
     {
-        try {
-            Assertion::integerish($value);
-        } catch (AssertionFailedException $e) {
-            return false;
-        }
+        $unitTypeMultiplier = MemoryLimitUnitTypeMultipliers::byName($lastCharacter)->getValue();
+        \assert(\is_int($unitTypeMultiplier));
 
-        return true;
+        return self::BYTES_MULTIPLIER ** $unitTypeMultiplier;
     }
 
 }
