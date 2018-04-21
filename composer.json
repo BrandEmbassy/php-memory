@@ -1,6 +1,5 @@
 {
     "name": "brandembassy/php-memory",
-    "version": "1.0.0",
     "description": "A simple tool to provide an easy-to-use API to get memory configuration from php.ini.",
     "type": "library",
     "license": "MIT",
