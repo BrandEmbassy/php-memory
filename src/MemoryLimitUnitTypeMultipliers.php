@@ -4,7 +4,7 @@ namespace BrandEmbassy\Memory;
 
 use MabeEnum\Enum;
 
-final class MemoryLimitUnitTypes extends Enum
+final class MemoryLimitUnitTypeMultipliers extends Enum
 {
 
     public const G = 3;
