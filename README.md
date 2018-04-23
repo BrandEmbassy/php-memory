@@ -26,6 +26,12 @@ $configuration = new \BrandEmbassy\Memory\MemoryConfiguration();
 $limitProvider = new \BrandEmbassy\Memory\MemoryLimitProvider($configuration);
 ```
 
+There is also a DI extension for Nette Framework. Just register it in your `services.neon` file:
+```
+extensions:
+    - BrandEmbassy\Memory\Bridge\MemoryLimitNetteExtension
+```
+
 You can then access the byte value of PHP memory limit like this:
 ```
 $limitInBytes = $memoryLimitProvider->getLimitInBytes();
