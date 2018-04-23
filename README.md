@@ -26,7 +26,7 @@ $configuration = new \BrandEmbassy\Memory\MemoryConfiguration();
 $limitProvider = new \BrandEmbassy\Memory\MemoryLimitProvider($configuration);
 ```
 
-There is also a DI extension for Nette Framework. Just register it in your `services.neon` file:
+There is also a DI extension for Nette Framework (you must have the `nette/di` package installed). Just register it in your `services.neon` file:
 ```
 extensions:
     - BrandEmbassy\Memory\Bridge\MemoryLimitNetteExtension
