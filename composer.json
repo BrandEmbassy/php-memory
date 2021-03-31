@@ -22,7 +22,7 @@
     },
     "require": {
         "php": ">=7.1",
-        "marc-mabe/php-enum": "^3.0"
+        "marc-mabe/php-enum": "^3.0 || ^4.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
@@ -33,7 +33,7 @@
         "nette/di": "Needed for registering package using the Nette Extension."
     },
     "scripts": {
-        "test": "vendor/bin/phpunit tests",
+        "phpunit": "vendor/bin/phpunit tests",
         "phpstan": "vendor/bin/phpstan analyse src tests -l max -c phpstan.neon"
     }
 }
