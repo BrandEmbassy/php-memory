@@ -1,5 +1,3 @@
-[![CircleCI](https://circleci.com/gh/BrandEmbassy/php-memory.svg?style=svg)](https://circleci.com/gh/BrandEmbassy/php-memory)
-
 # PHP Memory Limit
 
 A simple tool to provide an easy-to-use API to convert memory limit configuration from `php.ini` to bytes.
